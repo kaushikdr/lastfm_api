@@ -18,6 +18,8 @@ from django.http import HttpResponse, JsonResponse
 import pdb
 
 # Create your views here.
+
+
 class IndexView(TemplateView):
     # pdb.set_trace()
     template_name = 'index.html'
@@ -25,6 +27,7 @@ class IndexView(TemplateView):
     @method_decorator(ensure_csrf_cookie)
     def dispatch(self, *args, **kwargs):
         return super(IndexView, self).dispatch(*args, **kwargs)
+
 
 class Signup(FmView):
 
@@ -60,7 +63,7 @@ class Signup(FmView):
         user.set_password(data['password'])
         user.save()
         if self.auth_login({'username': data['username'], 'password': data['password']}):
-            return self.send_response(1, {'session_id': get_session_id(request), 'username':data['username']})
+            return self.send_response(1, {'session_id': get_session_id(request), 'username': data['username']})
         # return self.send_response(0, "User not logged in.")
 
 
@@ -89,8 +92,9 @@ class UserLogin(FmView):
 
         data = request.data.copy()
         if self.auth_login({'username': data['username'], 'password': data['password']}):
-            return self.send_response(1, {'session_id': get_session_id(request), 'username':data['username']})
+            return self.send_response(1, {'session_id': get_session_id(request), 'username': data['username']})
         # return self.send_response(0, "User does not exist.")
+
 
 class AdminLogin(FmView):
 
@@ -117,10 +121,11 @@ class AdminLogin(FmView):
 
         data = request.data.copy()
         if self.auth_login({'username': data['username'], 'password': data['password']}):
-            return self.send_response(1, {'session_id': get_session_id(request), 'username':data['username']})
+            return self.send_response(1, {'session_id': get_session_id(request), 'username': data['username']})
 
 
 class Search(FmAuthView):
+
     def get(self, request, format=None):
         # pdb.set_trace()
         history = UserHistory.objects.filter(user=request.user).order_by('-id')
@@ -130,7 +135,7 @@ class Search(FmAuthView):
     def post(self, request, format=None):
         # pdb.set_trace()
         data = request.data.copy()
-        headers = {'User-Agent':'musicfm/1.0'}
+        headers = {'User-Agent': 'musicfm/1.0'}
         info_url = settings.LASTFM_BASE_URL + '?method=artist.getinfo&artist=' + \
             data['artist']+'&api_key='+settings.LASTFM_API_KEY+'&format=json'
         tracks_url = settings.LASTFM_BASE_URL + '?method=artist.gettoptracks&artist=' + \
@@ -147,18 +152,22 @@ class Search(FmAuthView):
                 save_search_history.delay(request.user.id, data['artist'])
             else:
                 save_search_history(request.user.id, data['artist'])
-            return self.send_response(1, {'artist_info':info_resp.json(), 'tracks':tracks_resp.json(), 'albums':albums_resp.json()})
+            return self.send_response(1, {'artist_info': info_resp.json(), 'tracks': tracks_resp.json(), 'albums': albums_resp.json()})
+
 
 class Similar(FmAuthView):
+
     def get(self, request, format=None):
         data = request.GET.copy()
-        headers = {'User-Agent':'musicfm/1.0'}
+        headers = {'User-Agent': 'musicfm/1.0'}
         url = settings.LASTFM_BASE_URL + '?method=artist.getsimilar&artist=' + \
             data['artist']+'&api_key='+settings.LASTFM_API_KEY+'&format=json'
         resp = requests.get(url, headers=headers)
         return self.send_response(1, resp.json())
 
+
 class Analytics(FmView):
+
     @method_decorator(admin_only)
     def get(self, request, format=None):
         # pdb.set_trace()
@@ -166,4 +175,3 @@ class Analytics(FmView):
         count_dict = Counter(artists)
         common = count_dict.most_common(10)
         return self.send_response(1, OrderedDict(common))
-
