@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "authors": [
+    "Swarna <swarna@zapyle.com>"
+  ],
+  "description": "all angular dependencies",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.7",
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.7",
+    "jquery": "^3.0.0",
+    "angular-cookies": "^1.5.7"
+  }
+}

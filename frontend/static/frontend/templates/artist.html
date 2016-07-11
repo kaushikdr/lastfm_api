@@ -1,0 +1,113 @@
+<div id="artist" ng-controller="ArtistController">
+    <div ng-show="empty==true">
+    	[[ empty_state ]]
+    </div>
+	<div ng-show="result==true">
+		<div class="paragraphs">
+		    <span>
+		      <img style="float:left" src="[[ artist_img ]]" class="img-circle" width="200px;"/>
+		      <div padding-left="50px;" style="padding-top: 120px; padding-left: 220px;">
+			      <div class="content-heading" float="bottom"><h3>[[ artist_name ]]</h3></div>
+			      <div float="bottom">listeners: [[ listener ]]</div>
+		      </div>
+		    </span>
+		</div>
+		<div class="tag" style="padding-top:20px;">
+			<span ng-repeat="tag in tags">
+				[[ tag.name ]] &nbsp;&nbsp;~
+			</span>
+		</div>
+		<div class="bio" style="padding-top:20px;">
+			<p class="bio_desc">
+				[[ bio ]]
+				<a data-toggle="modal" data-target="#myModal"><span ng-show="read_more==true">Read more</span></a>
+			</p>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">[[ artist_name ]]</h4>
+		      </div>
+		      <div class="modal-body">
+		        [[ bio_string ]]
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+		<div class="tracks" style="padding-top:20px;">
+			<h3>
+				Top Tracks
+			</h3>
+			<table class="table table-condensed">
+				<tr ng-repeat="track in tracks">
+					<td>[[ $index + 1 ]]</td>
+					<td>[[ track.name ]]</td>
+					<td><span class="glyphicon glyphicon-bullhorn"></span> [[ track.listeners ]]</td>
+				</tr>
+			</table>
+		</div>
+		<div class="albums" style="padding-top:20px;">
+			<h3>
+				Top Albums
+			</h3>
+			<table class="table table-condensed">
+				<tr ng-repeat="album in albums">
+					<td>[[ $index + 1 ]]</td>
+					<td>[[ album.name ]]</td>
+					<!-- <td><span class="glyphicon glyphicon-bullhorn"></span> [[ track.listeners ]]</td> -->
+				</tr>
+			</table>
+		</div>
+		<div class="similar" style="padding-top:20px;">
+			<h3>
+				Similar Artists
+			</h3>
+			<span ng-repeat="sim in similar">
+				<font style="position:absolute; padding-left:5px;" size="3" color="white"><b>[[ sim.name ]]</b></font>
+				<img ng-src="[[ sim.image ]]">
+
+			</span>
+			<a ng-hide="searching_similar==true" ng-click="searchSimilar()">more...</a>
+			<span ng-show="searching_similar==true" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+		</div>
+	</div>
+	<div ng-show="all_similar==true">
+		<div class="all_similar" style="padding-top:20px;">
+			<a ng-click="back()">back</a>	
+			<h3>
+				Similar Artists
+			</h3>
+			<table class="table table-condensed">
+				<tr ng-repeat="simi in all_similar_artist">
+					<td>[[ $index + 1 ]]</td>
+					<td>[[ simi.name ]]</td>
+					<!-- <td><span class="glyphicon glyphicon-bullhorn"></span> [[ track.listeners ]]</td> -->
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div ng-show="history==true">
+		<div class="all_similar" style="padding-top:20px;">
+			<h3>
+				Recently Searched Artists
+			</h3>
+			<table class="table table-condensed">
+				<tr ng-repeat="artist in history_data">
+					<!-- <td>[[ $index + 1 ]]</td> -->
+					<td><a ng-click="history_search(artist.artist)">[[ artist.artist ]]</a></td>
+					<!-- <td><span class="glyphicon glyphicon-bullhorn"></span> [[ track.listeners ]]</td> -->
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+
+</div>

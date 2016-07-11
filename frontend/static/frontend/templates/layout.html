@@ -1,0 +1,91 @@
+<div id="layout" ng-controller="LayoutController">
+	<div ng-hide="loggedin==true" class="col-lg-offset-4 col-lg-4">
+		<form ng-submit="submitLogin()" ng-hide="signup==true">
+		  <div class="form-group">
+		    <label for="usernameInput">Username</label>
+		    <input required type="text" class="form-control" id="usernameInput" placeholder="Username" ng-model="user.username">
+		  </div>
+		  <div class="form-group">
+		    <label for="passwordInput">Password</label>
+		    <input required type="password" class="form-control" id="passwordInput" placeholder="Password" ng-model="user.password">
+		  </div>
+		  <div class="form-group">
+		  	<button type="submit" class="btn btn-primary btn-block" ng-click="signup=false">Login</button>
+		  	<!-- <button type="submit" class="btn btn-default" ng-click="signup=true">SignUp</button> -->
+		  </div>
+		  Not Registered? <a ng-click="signup=true"><span>Create New Account</span></a>
+		  <div>
+		  	<a href="/fmadmin/">Admin?</a>
+		  </div>
+		</form>
+		<form ng-submit="submitSignup()" ng-show="signup==true">
+		  <div class="form-group">
+		    <label for="usernameInput">Username</label>
+		    <input required type="text" class="form-control" id="usernameInput" placeholder="Username" ng-model="user.username">
+		  </div>
+		  <div class="form-group">
+		    <label for="passwordInput">Password</label>
+		    <input required type="password" class="form-control" id="passwordInput" placeholder="Password" ng-model="user.password">
+		  </div>
+		  <div class="form-group">
+		  	<!-- <button type="submit" class="btn btn-default" ng-click="signup=false">Login</button> -->
+		  	<button type="submit" class="btn btn-primary btn-block" ng-click="signup=true">SignUp</button>
+		  </div>
+		  Already Registered? <a ng-click="signup=false"><span>Login</span></a>
+		  <div>
+		  	<a href="/fmadmin/">Admin?</a>
+		  </div>
+		</form>
+
+	</div>
+	<div ng-show="loggedin==true">
+		<nav class="navbar navbar-default nav-centre">
+		  <div class="container-fluid">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" ng-click="changeToRootTracks()">MusicFM</a>
+		    </div>
+
+		    
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		    
+		      <form class="navbar-form navbar-left" role="search" ng-submit="submitSearch(searchtxt)">
+
+		          <div class="input-group">
+		            <input type="text" class="form-control" placeholder="Search Artists" name="srch-term" id="srch-term" ng-model="searchtxt">
+			          <div class="input-group-btn" ng-hide="searching==true">
+			              <button class="btn btn-default" type="submit" id="searchArtist"><i class="glyphicon glyphicon-search"></i></button>
+			              	
+			          </div>
+			        
+		      	  </div>
+		      	  <span ng-show="searching==true" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+		      </form>
+		      <ul class="nav navbar-nav">
+		      	<li><a ng-click="searchHistory()">Search History</a></li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+		              <li class="dropdown">
+		                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi [[ current_username ]] <span class="caret"></span></a>
+		                <ul class="dropdown-menu">
+		                  <li><a ng-click="logout()">Logout</a></li>
+		                </ul>
+		              </li>
+		            </ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		  <!-- <div>[[ template ]]</div> -->
+		  
+		</nav>
+		<div class="artist" ng-include=" template ">
+	</div>
+
+		
+
+</div>
